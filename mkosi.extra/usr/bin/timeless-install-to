@@ -1,0 +1,59 @@
+#!/bin/bash
+
+set -ex
+
+# Ask the user for their username
+echo "Please enter the system administrator's username:"
+read admin
+
+
+# Begin installing
+echo "Beginning install..."
+
+echo "Repartitioning disk..."
+systemd-repart --empty=require --dry-run=no --discard=true --dry-run=no /dev/$1
+
+echo "Detecting partitions on disk..."
+partprobe /dev/$1
+
+echo "Mounting Root..."
+mount /dev/${1}8 /mnt
+
+echo "Creating user..."
+useradd --user-group --shell /usr/bin/bash --root /mnt --create-home --groups wheel $admin
+
+echo "Setting password..."
+passwd --root /mnt --lock
+
+echo "Disabling Root..."
+cat > /mnt/etc/systemd/system/automatic-root-disable.service << EOF
+[Unit]
+Description=Remove the Root Accounts Password
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/passwd -d -l root
+ExecStart=/usr/bin/rm /etc/ssh/sshd_config.d/95-timeless-installer.conf
+ExecStart=/usr/bin/rm /etc/systemd/system/automatic-root-disable.service
+
+[Install]
+WantedBy=default.target
+EOF
+
+echo "Copying ssh keys..."
+cp /root/.ssh/authorized_keys /mnt/home/$admin/.ssh/
+
+echo "Syncing files to disk..."
+sync
+
+echo "Unmounting Root..."
+umount /mnt
+
+echo "Done!"
+echo ""
+echo ""
+echo ""
+echo "########################################################################"
+echo "Installed successfully. Rebooting into the system now."
+echo "########################################################################"
+reboot now

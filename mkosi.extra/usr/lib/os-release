@@ -1,0 +1,5 @@
+PRETTY_NAME="TimelessOS Server"
+NAME="TimelessOS-Server"
+ID="timelessos-server"
+ID_LIKE=arch
+RELEASE_TYPE=stable

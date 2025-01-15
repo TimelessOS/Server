@@ -1,0 +1,25 @@
+# Networking
+enable NetworkManager.service
+enable NetworkManager-wait-online.service
+enable systemd-resolved.service
+
+enable systemd-timesyncd.service
+
+disable cups.socket
+disable cups.service
+
+enable systemd-repart.service
+disable systemd-homed.service
+
+disable systemd-firstboot.service
+disable systemd-homed-firstboot.service
+
+enable systemd-sysupdate
+enable systemd-sysupdate.timer
+disable systemd-sysupdate-reboot.timer
+
+enable docker.service
+enable docker.socket
+
+# No sockets, sockets were removed due to DDoS attacks upstream.
+enable sshd.service

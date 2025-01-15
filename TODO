@@ -1,0 +1,3 @@
+* Build server/Update distribution server
+* Test booting with multiple versions installed
+* CI/CD

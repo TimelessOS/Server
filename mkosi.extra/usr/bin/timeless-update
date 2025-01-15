@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Updates everything.
+
+updatectl check
+updatectl update

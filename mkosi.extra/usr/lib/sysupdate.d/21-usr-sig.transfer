@@ -1,0 +1,15 @@
+[Transfer]
+ProtectVersion=%A
+
+[Source]
+Type=url-file
+Path=https://eaterminer.tinoplay.eu/TimelessOS-Server/updates
+MatchPattern=TimelessOS-Server-@v-usr.sig.zst
+
+[Target]
+Type=partition
+Path=auto
+MatchPattern=TimelessOS-Server-System-@v-Sig
+MatchPartitionType=usr-verity-sig
+PartitionFlags=0
+ReadOnly=1
