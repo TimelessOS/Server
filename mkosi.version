@@ -2,4 +2,4 @@
 
 set -e
 
-date +%Y%m%d
+date +%Y%m
