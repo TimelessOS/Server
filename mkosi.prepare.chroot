@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eux
 
 if [ "$1" = "final" ] && command -v pacman-key; then
     pacman-key --init
